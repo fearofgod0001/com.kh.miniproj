@@ -86,17 +86,20 @@ public class CartDAO {
     public void cartUpdate() {
         System.out.print("변경할 상품 ID를 입력하세요 : ");
         String product_id = sc.next();
+        System.out.print("변경할 고객 ID를 입력하세요 : ");
+        String customer_id = sc.next();
         System.out.print("수량 : ");
         int quantity = sc.nextInt();
 
-        String sql = "UPDATE CART SET QUANTITY = ? WHERE PRODUCT_ID =?" ;
+        String sql = "UPDATE CART SET QUANTITY = ? WHERE PRODUCT_ID =? AND CUSTOMER_ID =?" ;
 
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setInt(1, quantity);
             pStmt.setString(2, product_id);
-
+            pStmt.setString(3,customer_id);
+            pStmt.executeUpdate();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,12 +109,15 @@ public class CartDAO {
     public void cartDelete() {
         System.out.print("삭제할 상품 ID를 입력 하세요 : ");
         String product_id = sc.next();
-        String sql = "DELETE FROM CART WHERE PRODUCT_ID = ?";
+        System.out.print("삭제할 고객 ID를 입력 하세요 : ");
+        String customer_id = sc.next();
+        String sql = "DELETE FROM CART WHERE PRODUCT_ID = ? AND CUSTOMER_ID = ? ";
 
         try {
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, product_id);
+            pStmt.setString(2, customer_id);
             pStmt.executeUpdate();
         }catch (Exception e) {
             e.printStackTrace();
