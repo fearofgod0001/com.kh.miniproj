@@ -4,6 +4,7 @@ import com.kh.miniproj.util.Common;
 import com.kh.miniproj.vo.ProdVO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 public class ProdDAO {
     Connection conn = null;
     Statement stmt = null;
+    PreparedStatement pStmt = null; //// 더블형 추가
     ResultSet rs = null;
     Scanner sc = new Scanner(System.in);
 
@@ -74,7 +76,7 @@ public class ProdDAO {
         int stkQuan = sc.nextInt();
 
 
-        String sql = "INSERT INTO PRODUCTS(PRODUCT_ID, PRODUCT_NAME, COLOR, PSIZE, PRICE, STOCK_QUANTITY) VALUES("
+        String sqlpp = "INSERT INTO PRODUCTS(PRODUCT_ID, PRODUCT_NAME, COLOR, PSIZE, PRICE, STOCK_QUANTITY) VALUES("
                 + "'" + pID + "'" + ", " + "'" + pName + "'" + ", " + "'" + color + "'" + ", "
                 + "'" + pSize + "'" + ", " + price + ", "
                 + stkQuan + ")";
@@ -82,14 +84,57 @@ public class ProdDAO {
         try {
             conn = Common.getConnection();
             stmt = conn.createStatement();
-            int ret = stmt.executeUpdate(sql); //
+            int ret = stmt.executeUpdate(sqlpp); //
             System.out.println("Return : " + ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
         Common.close(stmt);
         Common.close(conn);
-
-
     }
+
+    public void prodUpdate() {
+        System.out.println("변경할 상품의 ID를 입력 하세요 : ");
+        String pID = sc.next();
+        System.out.print("상품명 : ");
+        String pName = sc.next();
+        System.out.print("가격 : ");
+        int price = sc.nextInt();
+        System.out.print("수량 : ");
+        int stkQuan = sc.nextInt();
+
+        String sqlp = "UPDATE PRODUCTS SET PRODUCT_NAME = ?, PRICE = ?, STOCK_QUANTITY = ? WHERE PRODUCT_ID = ?";
+
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sqlp);
+            pStmt.setString(1,pName);
+            pStmt.setInt(2,price);
+            pStmt.setInt(3,stkQuan);
+            pStmt.setString(4,pID);
+            pStmt.executeUpdate();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
+
+    public void empDelete(){
+        System.out.println("삭제할 상품의 ID를 입력 하세요 : ");
+        String pID = sc.next();
+        String sql = "DELETE FROM PRODUCTS WHERE PRODUCT_ID = ?";
+        try{
+            conn = Common.getConnection();
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1,pID);
+            pStmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Common.close(pStmt);
+        Common.close(conn);
+    }
+
 }
