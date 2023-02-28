@@ -48,7 +48,7 @@ import java.util.Scanner;
             for(OrdersVO o : list){
                 System.out.println("주문ID : " + o.getOrder_id());
                 System.out.println("고객ID : " + o.getCustomer_id());
-                System.out.println("총합가격 : " + o.getTotal_cost());
+                System.out.println("총합가격 : " + o.getTotal_cost() + "원");
                 System.out.println("주문일자 : " + o.getOrder_date());
                 System.out.println("결제방법 : " + o.getPayment_method());
                 System.out.println("배송지 : " + o.getShipping_address());

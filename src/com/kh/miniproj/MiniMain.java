@@ -22,7 +22,7 @@ public class MiniMain {
                 case 1:
                     List<ProdVO> listP = pDao.productsSelect();
                     pDao.productSelectPrint(listP);
-
+                    break;
                 case 2:
                     List<CustomersVO> listC = cDao.CustomerSelect();
                     cDao.CustomerSelectPrint(listC);
@@ -35,7 +35,7 @@ public class MiniMain {
                         case 3: cDao.customerDelete(); break;
                         case 4: break;
                         }
-
+                    break;
                 case 3:
                     List<OrdersVO> listO = oDao.ordersSelect();
                     oDao.ordersSelectPrint(listO);
@@ -48,7 +48,7 @@ public class MiniMain {
                         case 3: oDao.ordersDelete(); break;
                         case 4: break;
                     }
-
+                    break;
                 case 4:
                     List<OrderItemsVO> listOI = oiDao.orderItemssSelect();
                     oiDao.orderItemsSelectPrint(listOI);
@@ -61,6 +61,7 @@ public class MiniMain {
                         case 3: oiDao.orderItemsDelete(); break;
                         case 4: break;
                     }
+                    break;
 
                 case 5:
                     List<CartVO> listCT = ctDao.CartSelect();
@@ -74,7 +75,7 @@ public class MiniMain {
                         case 3: ctDao.cartDelete(); break;
                         case 4: break;
                     }
-
+                    break;
                 case 6:
                     System.out.println("메뉴를 종료 합니다.");
                     break;

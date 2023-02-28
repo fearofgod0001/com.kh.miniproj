@@ -49,8 +49,8 @@ public class OrderItemsDAO {
             for (OrderItemsVO oi : list) {
                 System.out.println("주문 ID : " + oi.getOrder_id());
                 System.out.println("상품 ID : " + oi.getProduct_id());
-                System.out.println("주문 수량 : " + oi.getOrder_quantity());
-                System.out.println("주문 가격  : " + oi.getOrder_price());
+                System.out.println("주문 수량 : " + oi.getOrder_quantity() + "개");
+                System.out.println("주문 가격  : " + oi.getOrder_price() + "원");
                 System.out.println("-------------------");
 
             }

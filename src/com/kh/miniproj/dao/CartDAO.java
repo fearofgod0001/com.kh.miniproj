@@ -32,7 +32,8 @@ public class CartDAO {
                 int quantity = rs.getInt("QUANTITY");
                 String product_name = rs.getNString("PRODUCT_NAME");
                 int price = rs.getInt("PRICE");
-                CartVO cVo = new CartVO(customer_id, product_id, quantity, product_name, price);
+                int ttl = quantity * price;
+                CartVO cVo = new CartVO(customer_id, product_id, quantity, product_name, price,ttl);
                 list.add(cVo);
             }
             Common.close(rs);
@@ -50,7 +51,8 @@ public class CartDAO {
             System.out.println("상품 ID : " + ca.getProduct_id());
             System.out.println("수량 : " + ca.getQuantity());
             System.out.println("상품명 : " + ca.getProduct_name());
-            System.out.println("가격 : " + ca.getPrice());
+            System.out.println("가격 : " + ca.getPrice()+"원");
+            System.out.println("총액 : " + ca.getTtl() + "원");
             System.out.println("--------------------------");
         }
     }
