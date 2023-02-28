@@ -85,12 +85,14 @@ public class OrderItemsDAO {
     public void orderItemsUpdate() {
         System.out.println("변경할 주문 ID를 입력 하세요 : ");
         String order_id = sc.next();
+        System.out.println("변경할 상품 ID를 입력 하세요 : ");
+        String product_id = sc.next();
         System.out.print("주문 수량 : ");
         int order_q = sc.nextInt();
         System.out.print("주문 가격 : ");
         int order_price = sc.nextInt();
 
-        String sqloi = "UPDATE ORDER_ITEMS SET ORDER_QUANTITY = ?, ORDER_PRICE = ? WHERE ORDER_ID = ?";
+        String sqloi = "UPDATE ORDER_ITEMS SET ORDER_QUANTITY = ?, ORDER_PRICE = ? WHERE ORDER_ID = ? AND PRODUCT_ID = ?";
 
         try{
             conn = Common.getConnection();
@@ -98,6 +100,7 @@ public class OrderItemsDAO {
             pStmt.setInt(1,order_q);
             pStmt.setInt(2,order_price);
             pStmt.setString(3,order_id);
+            pStmt.setString(4,product_id);
             pStmt.executeUpdate();
 
         }catch(Exception e){
@@ -110,11 +113,14 @@ public class OrderItemsDAO {
     public void orderItemsDelete(){
         System.out.println("삭제할 주문 ID를 입력 하세요 : ");
         String order_id = sc.next();
-        String sqlio = "DELETE FROM ORDER_ITEMS WHERE ORDER_ID = ?";
+        System.out.println("삭제할 상품 ID를 입력 하세요 : ");
+        String product_id = sc.next();
+        String sqlio = "DELETE FROM ORDER_ITEMS WHERE ORDER_ID = ? AND PRODUCT_ID = ?";
         try{
             conn = Common.getConnection();
             pStmt = conn.prepareStatement(sqlio);
             pStmt.setString(1,order_id);
+            pStmt.setString(2,product_id);
             pStmt.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
