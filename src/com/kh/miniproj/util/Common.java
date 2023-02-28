@@ -9,7 +9,7 @@ public class Common {
     final static String ORACLE_URL ="jdbc:oracle:thin:@localhost:1521:xe";
     final static String ORACLE_ID = "SCOTT";
     final static String ORACLE_PWD = "TIGER";
-    final static String ORACLE_DRV="oracle.jdbc.driver.OracleDriver";
+    final static String ORACLE_DRV= "oracle.jdbc.driver.OracleDriver";
 
     public static Connection getConnection(){
         Connection conn = null;

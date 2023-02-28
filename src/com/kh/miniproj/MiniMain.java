@@ -1,14 +1,14 @@
 package com.kh.miniproj;
 
-import com.kh.miniproj.dao.MiniProductDAO;
-import com.kh.miniproj.vo.MiniProductsVO;
+import com.kh.miniproj.dao.ProdDAO;
+import com.kh.miniproj.vo.ProdVO;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MiniMain {
     public static void main(String[] args) {
-        MiniProductDAO dao = new MiniProductDAO();
+        ProdDAO pDao = new ProdDAO();
         Scanner sc = new Scanner(System.in);
         while(true){
             System.out.println("====== [EMP Table Command] ====== ");
@@ -17,9 +17,12 @@ public class MiniMain {
             int sel = sc.nextInt();
             switch (sel){
                 case 1:
-                    List<MiniProductsVO> list = dao.productsSelect();
-                    dao.productSelectPrint(list);
+                    List<ProdVO> list = pDao.productsSelect();
+                    pDao.productSelectPrint(list);
+                    break;
                 case 2:
+                    pDao.productsInsert();
+                    break;
                 case 3:
                 case 4:
                 case 5:
