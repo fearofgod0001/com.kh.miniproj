@@ -3,6 +3,7 @@ package com.kh.miniproj.dao;
 import com.kh.miniproj.vo.CartVO;
 import com.kh.miniproj.util.Common;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,33 +57,59 @@ public class CartDAO {
             System.out.println("--------------------------");
         }
     }
-    public void cartInsert(){
+
+
+    public void cartInsert() {
         System.out.print("장바구니 추가정보를 입력하세요.");
         System.out.print("고객 ID : ");
         String customer_id = sc.next();
         System.out.print("상품 ID : ");
         String product_id = sc.next();
-        System.out.println("수량 : ");
+        System.out.print("수량 : ");
         int quantity = sc.nextInt();
-        System.out.println("상품명 : ");
-        String product_name = sc.next();
-        System.out.println("가격 : ");
-        int price = sc.nextInt();
-
-        String sql = "INSERT INTO CART(CUSTOMER_ID, PRODUCT_ID, QUANTITY, PRODUCT_NAME, PRICE) VALUES ("
-                + "'" + customer_id + "'" + ", " + "'" + product_id + "'" + ", " + quantity + ", "
-                + "'" + product_name + "'" + ", " + price + ")";
-        try{
-            conn = Common.getConnection();
-            stmt = conn.createStatement();
-            int ret = stmt.executeUpdate(sql);
-            System.out.println("Return : " + ret);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        Common.close(stmt);
-        Common.close(conn);
+        cartInsertT(customer_id, product_id, quantity);
+        if (cartInsertT(customer_id, product_id,  quantity) !=0)
+            cartUpdateTTL(customer_id);
     }
+
+
+        public int cartInsertT(String customer_id, String product_id, int quantity){
+            int ret = 0;
+            String sql = "INSERT INTO CART(CUSTOMER_ID, PRODUCT_ID, QUANTITY, PRODUCT_NAME, PRICE) VALUES ("
+                    + "'" + customer_id + "'" + ", " + "'" + product_id + "'" +  ", " + quantity + ", " + "(SELECT PRODUCT_NAME FROM PRODUCTS WHERE PRODUCT_ID = " + "'" + product_id + "'"+ ") "+ ", "+"(SELECT PRICE FROM PRODUCTS WHERE PRODUCT_ID = "+"'" + product_id + "'" + ")" + ")";
+            try {
+                conn = Common.getConnection();
+                stmt = conn.createStatement();
+//                pStmt.setString(1, customer_id);
+//                pStmt.setString(2, product_id);
+//                pStmt.setInt(3, quantity);
+                ret = stmt.executeUpdate(sql);
+                System.out.println("Return : " + ret);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Common.close(stmt);
+            Common.close(conn);
+          return ret;
+        }
+
+        public void cartUpdateTTL(String customer_id){
+           //String sql2 = "UPDATE CART SET TOTAL_COST = QUANTITY * PRICE WHERE CUSTOMER_ID = " + "'" + customer_id + "'" + ";";
+            String sql2 = "UPDATE CART SET TOTAL_COST = QUANTITY * PRICE WHERE CUSTOMER_ID = ?";
+
+            try {
+                conn = Common.getConnection();
+                pStmt = conn.prepareStatement(sql2);
+                pStmt.setString(1,customer_id);
+                pStmt.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Common.close(pStmt);
+            Common.close(conn);
+        }
+//    }
+
 
 
     public void cartUpdate() {
@@ -107,6 +134,9 @@ public class CartDAO {
         }
         Common.close(pStmt);
         Common.close(conn);
+
+
+
     }
     public void cartDelete() {
         System.out.print("삭제할 상품 ID를 입력 하세요 : ");

@@ -5,6 +5,7 @@ public class OrdersVO {
 
         private String order_id;
         private String customer_id;
+        private String product_id;
         private BigDecimal total_cost;
         private Date order_date;
         private String payment_method;

@@ -2,19 +2,22 @@ package com.kh.miniproj;
 
 import com.kh.miniproj.dao.*;
 import com.kh.miniproj.vo.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class MiniMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ProdDAO pDao = new ProdDAO();
         CustomersDAO cDao = new CustomersDAO();
         OrdersDAO oDao = new OrdersDAO();
         OrderItemsDAO oiDao = new OrderItemsDAO();
         CartDAO ctDao = new CartDAO();
         Scanner sc = new Scanner(System.in);
+        boolean t = true;
 
-        while (true) {
+        while (t) {
             System.out.println("조회 할 정보를 선택하세요 : ");
             System.out.println("[1]상품 정보, [2]고객 정보, [3]주문 정보, [4]주문 상품 정보, [5]장바구니, [6] 종료 :");
             int sel1 = sc.nextInt();
@@ -78,6 +81,7 @@ public class MiniMain {
                     break;
                 case 6:
                     System.out.println("메뉴를 종료 합니다.");
+                    t = false;
                     break;
             }
         }

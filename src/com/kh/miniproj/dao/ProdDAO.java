@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class ProdDAO {
+public class ProdDAO{
     Connection conn = null;
     Statement stmt = null;
     PreparedStatement pStmt = null; //// 더블형 추가
